@@ -1,55 +1,57 @@
-# bite-consultoria
+# Bite.Co — Consultoría de Arquitectura de Software
 
-Repositorio de experimentos de **tácticas de arquitectura de software** implementados con **Infraestructura como Código (IaC)** usando [Terraform](https://www.terraform.io/) sobre **AWS**.
+**Pandilla de Duendes · Sección 3 · Arquitectura y Diseño de Software**
+
+Repositorio de experimentos y decisiones arquitectónicas para el proyecto de consultoría a Bite.Co. Cada experimento evalúa una táctica de calidad sobre infraestructura real en AWS usando Terraform.
+
+---
+
+## Equipo
+
+| Nombre | GitHub |
+|---|---|
+| Nelson Felipe Celis | — |
+| Juan Felipe Hortúa | — |
+| Juan Manuel Rojas | — |
+| Julián Restrepo | — |
+| Raúl Ruiz | [@raul2610](https://github.com/raul2610) |
+
+---
 
 ## Estructura del repositorio
 
 ```
 bite-consultoria/
-├── .gitignore            # Excluye artefactos de Terraform (.terraform/, *.tfstate, *.tfvars)
 └── terraform/
-    ├── README.md         # Guía completa de uso
-    ├── providers.tf      # Provider AWS + configuración de backend remoto
-    ├── variables.tf      # Variables globales compartidas
-    ├── modules/          # Módulos reutilizables
-    │   ├── networking/   # VPC, subnets, IGW, NAT Gateway
-    │   ├── compute/      # EC2 Launch Template + Auto Scaling Group
-    │   └── database/     # RDS (PostgreSQL) + ElastiCache (Redis)
-    └── experiments/      # Un experimento por táctica de arquitectura
-        ├── 01-availability/   # Disponibilidad: Multi-AZ, ALB, RDS Multi-AZ
-        ├── 02-performance/    # Rendimiento: ALB, ElastiCache, CloudFront
-        ├── 03-security/       # Seguridad: IAM, KMS, WAF, subnets privadas
-        ├── 04-scalability/    # Escalabilidad: ASG + ECS Fargate auto-scaling
-        └── 05-modifiability/  # Modificabilidad: microservicios ECS, Lambda, API Gateway
+    ├── experiments/
+    │   ├── 01-availability/       # Táctica: Disponibilidad
+    │   ├── 02-performance/        # Táctica: Rendimiento
+    │   ├── 03-security/           # Táctica: Seguridad
+    │   ├── 04-scalability/        # Táctica: Escalabilidad
+    │   └── 05-modifiability/      # Táctica: Modificabilidad
+    └── modules/
+        ├── compute/               # Módulo reutilizable: cómputo (EC2, ECS, Lambda)
+        ├── database/              # Módulo reutilizable: base de datos (RDS, DynamoDB)
+        └── networking/            # Módulo reutilizable: red (VPC, subnets, SGs)
 ```
 
-## Experimentos disponibles
+---
 
-| # | Táctica | Tecnologías AWS |
-|---|---------|----------------|
-| 01 | **Disponibilidad** | ALB health checks, ASG, RDS Multi-AZ |
-| 02 | **Rendimiento** | ALB, ElastiCache Redis, CloudFront CDN |
-| 03 | **Seguridad** | IAM least-privilege, KMS, WAF OWASP rules |
-| 04 | **Escalabilidad** | EC2 ASG target tracking, ECS Fargate auto-scaling |
-| 05 | **Modificabilidad** | ECS microservicios, Lambda, API Gateway, SSM feature flags |
-
-## Inicio rápido
-
-Consultar [`terraform/README.md`](terraform/README.md) para pre-requisitos y pasos detallados.
+## Cómo usar un experimento
 
 ```bash
-cd terraform/experiments/01-availability
+cd terraform/experiments/<nombre-experimento>
+
+# Copiar y configurar variables
 cp terraform.tfvars.example terraform.tfvars
-# Editar terraform.tfvars con tus valores
-terraform init && terraform plan
+
+# Inicializar y aplicar
+terraform init
+terraform plan
+terraform apply
 ```
-# Pandilla de Duendes - Sección 3 - Arquitectura y Diseño de Software
 
-Este es el repositorio encargado de manejar los sprints para el proyecto consultor a Bite.Co
-
-### Integrantes del grupo
-- Nelson Felipe Celis
-- Juan Felipe Hortúa
-- Juan Manuel Rojas
-- Julián Restrepo
-- Raúl Ruiz
+> Recuerde destruir los recursos al terminar para evitar costos innecesarios:
+> ```bash
+> terraform destroy
+> ```
